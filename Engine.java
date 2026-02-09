@@ -17,26 +17,26 @@ public class Engine {
     }
 
     public void update(float deltaTime) {
-        for (GameObject obj : objects) {
-            obj.update();
-        }
+    }
 
-        objects.removeIf(obj -> obj.getX() + obj.getSize() < 0 || obj.getY() < -obj.getSize());
+    public void draw(Graphics g) {
     }
 
     public void spawnObject() {
-        float y = random.nextFloat() * (screenHeight - 60);
-        Color color = new Color(random.nextFloat(), random.nextFloat(), random.nextFloat());
+    }
 
-        GameObject obj = new GameObject(
-                random.nextInt(3, 100),
-                screenWidth,
-                y,
-                40,
-                2.5f,
-                color
-        );
-        objects.add(obj);
+    public void spawnObject(GameObject gameObject) {
+    }
+
+    public boolean collisionAABB(GameObject a, GameObject b) {
+        return false;
+    }
+
+    public void spawnObjectPattern(List<GameObject> pattern, long delay) {
+    }
+
+    // supplier of Pythagoras
+    public void moveTowards(GameObject attaker, GameObject target) {
     }
 
     public List<GameObject> getObjects() {
