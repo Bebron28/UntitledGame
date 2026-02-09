@@ -3,47 +3,84 @@ import java.awt.*;
 // 1) Добавить параметр смещения отностельно оси Х
 // 2) Разные типы башен (возможно не только башни)
 // 3) Механизм здоровья башни (200 >= MAX >= 150, 150 > MID >= 70, 70 > LOW >= 0)
-public class Tower2 {
+public class Tower67 {
 
-    private int heath = 200;
+    private int health = 200;
+    private int xOffset = 25; // смещениe
+    private int width = 120;  // ширина основания башни
+    private int height = 300; // высота башни (от основания до вершины флага)
 
-    private  int xOffset = 25; //смещение(мое)
-
-    public Tower2(int heath) {
-        this.heath = heath;
+    // Конструктор по умолчанию
+    public Tower67() {
     }
 
-    public Tower2(int heath, int xOffset){ //конструктор (мой)
-        this.heath = heath;//мое
-        this.xOffset = xOffset;//мое
+    // Конструктор с параметром health
+    public Tower67(int health) {
+        this.health = health;
     }
 
-    public Tower2() {
-    }
-
-    public void setXOffset(int xOffset) { //тоже я добавил
+    // Конструктор с health и xOffset
+    public Tower67(int health, int xOffset) {
+        this.health = health;
         this.xOffset = xOffset;
-    } //сетер мой
+    }
+
+    // Полный конструктор с width и height
+    public Tower67(int health, int xOffset, int width, int height) {
+        this.health = health;
+        this.xOffset = xOffset;
+        this.width = width;
+        this.height = height;
+    }
+
+    // Геттеры и сеттеры
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
 
     public int getXOffset() {
         return xOffset;
-    }//гетер мой
+    }
+
+    public void setXOffset(int xOffset) {
+        this.xOffset = xOffset;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
 
     public void draw(Graphics g, int panelHeight, int panelWidth) {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setStroke(new BasicStroke(3, BasicStroke.CAP_ROUND,
                 BasicStroke.JOIN_MITER));
 
-        // Высота башни (от основания до вершины флага)
-        int towerHeight = 300;
+        // Высота башни теперь берется из переменной height
+        int towerHeight = height;
 
         // Координаты основания башни (внизу экрана)
         int baseY = panelHeight - 50; // Основание с небольшим отступом от низа
-        int centerX = panelWidth / 2 - towerHeight / 2 + xOffset; // Центр экрана  тут тоже добавил само смещение
+        int centerX = panelWidth / 2 - towerHeight / 2 + xOffset;
 
-        // Основной корпус башни (шире внизу, уже вверху)
-        int baseWidth = 120;  // Ширина основания
-        int topWidth = 80;    // Ширина вершины
+        // Основной корпус башни - ширина основания теперь берется из переменной width
+        int baseWidth = width;
+        int topWidth = 80; // Ширина вершины остается фиксированной или можно добавить отдельную переменную
 
         int[] towerX = {
                 centerX - baseWidth/2,  // левый низ (1)
@@ -153,7 +190,6 @@ public class Tower2 {
         // Украшение на вершине флагштока
         g2d.setColor(Color.YELLOW);
         g2d.fillOval(flagPoleX - 4, flagPoleTopY - 4, 8, 8);
-
     }
 
     private void drawBattlements(Graphics2D g2d, int centerX, int topY, int width, int height, int count) {
