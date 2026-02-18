@@ -7,6 +7,7 @@ public class GameView extends JPanel {
     public GameView(Engine engine) {
         this.engine = engine;
         new Timer(16, e -> {
+            engine.update(0.016f);
             repaint();
         }).start();
     }
