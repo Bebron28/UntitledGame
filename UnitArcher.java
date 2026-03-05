@@ -2,16 +2,14 @@ import javax.swing.*;
 import java.awt.*;
 
 // by Bebron28
+// edit by vadhub
 
-public class UnitArcher extends JPanel {
+public class UnitArcher extends GameObject {
 
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        drawArcher(g);
+    public UnitArcher() {
     }
 
-    private void drawArcher(Graphics g) {
+    public void draw(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
@@ -58,5 +56,10 @@ public class UnitArcher extends JPanel {
             int y = 160 + i * 15;
             g2d.drawLine(125, y, 140, y);
         }
+    }
+
+    @Override
+    public void paintIcon(Component c, Graphics g, int x, int y) {
+        draw(g);
     }
 }

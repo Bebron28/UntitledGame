@@ -5,6 +5,9 @@ import java.awt.*;
 
 public class UnitDinoRider extends GameObject {
 
+    public UnitDinoRider() {
+    }
+
     public UnitDinoRider(int id, float x, float y, int size, float speed) {
         super(id, x, y, size, speed, Color.BLACK);
     }
@@ -58,5 +61,10 @@ public class UnitDinoRider extends GameObject {
         int[] yPoints = {y - 25, y - 15, y - 5};
         g2.fillPolygon(xPoints, yPoints, 3);
 
+    }
+
+    @Override
+    public void paintIcon(Component c, Graphics g, int x, int y) {
+        draw(g);
     }
 }
