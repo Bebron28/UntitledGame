@@ -5,13 +5,16 @@ import java.util.Random;
 
 public class Engine {
 
+    private float gameTime = 0;
+    private float deltaTime = 0;
     private int screenWidth = 800;
     private int screenHeight = 600;
     private final List<GameObject> objects = new ArrayList<>();
     private final Random random = new Random();
     private static Engine engine = null;
 
-    private Engine() {}
+    private Engine() {
+    }
 
     public static Engine getInstance() {
         if (engine == null) {
@@ -21,9 +24,13 @@ public class Engine {
     }
 
     public void update(float deltaTime) {
+        this.deltaTime = deltaTime;
+        gameTime += deltaTime;
         for (GameObject object: objects) {
-            object.update();
+            object.update(deltaTime);
         }
+
+        objects.removeIf(obj -> !obj.isAlive());
     }
 
     public void draw(Graphics g) {
@@ -40,7 +47,20 @@ public class Engine {
     }
 
     public boolean collisionAABB(GameObject a, GameObject b) {
-        return false;
+        float halfA = a.getSize() / 2f;
+        float halfB = b.getSize() / 2f;
+
+        float leftA = a.getX() - halfA;
+        float rightA = a.getX() + halfA;
+        float topA = a.getY() - halfA;
+        float bottomA = a.getY() + halfA;
+
+        float leftB = b.getX() - halfB;
+        float rightB = b.getX() + halfB;
+        float topB = b.getY() - halfB;
+        float bottomB = b.getY() + halfB;
+
+        return rightA > leftB && leftA < rightB && bottomA > topB && topA < bottomB;
     }
 
     public void spawnObjectPattern(List<GameObject> pattern, long delay) {
@@ -89,7 +109,20 @@ public class Engine {
     }
 
     public GameObject findNearestEnemy(GameObject self, float range) {
-        return new GameObject();
+        if (self == null) return null;
+        GameObject nearest = null;
+        float rangeSq = range * range;
+        for (GameObject obj : objects) {
+            if (obj != self && obj.isAlive() && obj.getFraction() != self.getFraction()) {
+                float distSq = self.distanceSqTo(obj);
+                System.out.println(obj + " " + distSq + " < " + rangeSq);
+                if (distSq < rangeSq) {
+                    rangeSq = distSq;
+                    nearest = obj;
+                }
+            }
+        }
+        return nearest;
     }
 
     public List<GameObject> getObjects() {
@@ -115,4 +148,6 @@ public class Engine {
     public void setScreenWidth(int screenWidth) {
         this.screenWidth = screenWidth;
     }
+
+    public float getGameTime() { return gameTime; }
 }
