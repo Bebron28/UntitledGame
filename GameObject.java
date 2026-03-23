@@ -3,6 +3,14 @@ import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.util.Objects;
 
+/**
+ * Класс GameObject описывает объект в игре.
+ * У него есть позиция, размер, скорость и боевые характеристики.
+ * Также реализует интерфейс Icon для отображения.
+ *
+ * Может использоваться как базовый класс для других объектов.
+ */
+
 public class GameObject implements Cloneable, Icon {
     protected int id;
     protected float x;
@@ -19,6 +27,10 @@ public class GameObject implements Cloneable, Icon {
     protected boolean isAlive = true;
     protected Engine engine = Engine.getInstance();
 
+    /**
+     * Конструктор по умолчанию.
+     * Создаёт объект с базовыми значениями.
+     */
     public GameObject() {
         id = -1;
         size = 50;
@@ -26,6 +38,16 @@ public class GameObject implements Cloneable, Icon {
         color = Color.BLACK;
     }
 
+    /**
+     * Конструктор с основными параметрами.
+     *
+     * @param id идентификатор объекта
+     * @param x позиция по X
+     * @param y позиция по Y
+     * @param size размер объекта
+     * @param speed скорость движения
+     * @param color цвет объекта
+     */
     public GameObject(int id, float x, float y, int size, float speed, Color color) {
         this.id = id;
         this.x = x;
@@ -58,10 +80,21 @@ public class GameObject implements Cloneable, Icon {
         this.size = size;
     }
 
+    /**
+     * Обновляет позицию объекта.
+     *
+     * @param dt время кадра
+     */
     protected void update(float dt) {
         x += (int) (speed * dt);
     }
 
+    /**
+     * Двигает объект к другой цели.
+     *
+     * @param target цель
+     * @param dt время кадра
+     */
     public void moveTowards(GameObject target, float dt) {
         float dirX = target.x - this.x;
         float dirY = target.y - this.y;
@@ -88,6 +121,12 @@ public class GameObject implements Cloneable, Icon {
         return false;
     }
 
+    /**
+     * Выполняет атаку по цели.
+     *
+     * @param target цель
+     * @param currentTime текущее время
+     */
     public void attack(GameObject target, float currentTime) {
         if (target == null || !target.isAlive()) return;
 
@@ -105,18 +144,35 @@ public class GameObject implements Cloneable, Icon {
 
     }
 
+    /**
+     * Считает расстояние до объекта.
+     *
+     * @param other другой объект
+     * @return расстояние
+     */
     public float distanceTo(GameObject other) {
         float dx = this.x - other.x;
         float dy = this.y - other.y;
         return (float) Math.sqrt(dx * dx + dy * dy);
     }
 
+    /**
+     * Считает расстояние без корня (быстрее).
+     *
+     * @param other другой объект
+     * @return квадрат расстояния
+     */
     public float distanceSqTo(GameObject other) {
         float dx = this.x - other.x;
         float dy = this.y - other.y;
         return dx * dx + dy * dy;
     }
 
+    /**
+     * Отрисовывает объект.
+     *
+     * @param g графика
+     */
     protected void draw(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
@@ -230,6 +286,10 @@ public class GameObject implements Cloneable, Icon {
         isAlive = alive;
     }
 
+
+    /**
+     * Проверка на равенство объектов.
+     */
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
@@ -237,11 +297,17 @@ public class GameObject implements Cloneable, Icon {
         return id == that.id && Float.compare(x, that.x) == 0 && Float.compare(y, that.y) == 0 && Float.compare(speed, that.speed) == 0;
     }
 
+    /**
+     * Генерация hashCode.
+     */
     @Override
     public int hashCode() {
         return Objects.hash(id, x, y, speed);
     }
 
+    /**
+     * Клонирование объекта.
+     */
     @Override
     public GameObject clone() {
         try {
@@ -251,6 +317,10 @@ public class GameObject implements Cloneable, Icon {
         }
     }
 
+
+    /**
+     * Отрисовка как иконки.
+     */
     @Override
     public void paintIcon(Component c, Graphics g, int x, int y) {
         this.x = x;
@@ -258,16 +328,25 @@ public class GameObject implements Cloneable, Icon {
         draw(g);
     }
 
+    /**
+     * Ширина иконки.
+     */
     @Override
     public int getIconWidth() {
         return size;
     }
 
+    /**
+     * Высота иконки.
+     */
     @Override
     public int getIconHeight() {
         return size;
     }
 
+    /**
+     * Строковое представление объекта.
+     */
     @Override
     public String toString() {
         return "GameObject{" +
