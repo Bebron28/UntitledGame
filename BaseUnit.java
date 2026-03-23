@@ -1,12 +1,12 @@
 import java.awt.*;
 import java.awt.geom.Path2D;
 
-public class Hooligan extends GameObject {
+public class BaseUnit extends GameObject {
 
-    public Hooligan() {
+    public BaseUnit() {
     }
 
-    public Hooligan(int id, float x, float y, int size, float speed) {
+    public BaseUnit(int id, float x, float y, int size, float speed) {
         super(id, x, y, size, speed, Color.BLACK);
     }
 
